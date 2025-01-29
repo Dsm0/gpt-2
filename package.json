@@ -1,0 +1,30 @@
+{
+  "name": "gpt-2-wasm-test",
+  "version": "1.0.0",
+  "description": "This is my reimplementation of the forward and backward pass of GPT-2, written in standard C11 with no dependencies other than the C POSIX library. My only intention with this project was to gain a low-level understanding of how transformer models work. The code is not production-ready.",
+  "main": "index.js",
+  "scripts": {
+    "test": "node tests",
+    "asbuild:debug": "asc assembly/index.ts --target debug",
+    "asbuild:release": "asc assembly/index.ts --target release",
+    "asbuild": "npm run asbuild:debug && npm run asbuild:release",
+    "start": "npx serve .",
+    "configure": "npx asc assembly/index.ts -o build/optimized.wasm --optimize --config ./node_modules/@assemblyscript/wasi-shim/asconfig.json "
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@assemblyscript/wasi-shim": "^0.1.0",
+    "assemblyscript": "^0.27.32"
+  },
+  "dependencies": {
+    "@assemblyscript/loader": "^0.27.32"
+  },
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./build/release.js",
+      "types": "./build/release.d.ts"
+    }
+  }
+}
